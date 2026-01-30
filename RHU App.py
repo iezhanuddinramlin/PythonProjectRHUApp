@@ -161,7 +161,7 @@ class AddRHUWindow(QDialog):
         addNotesPageLayout.addWidget(addNotesLabel)
 
         addNotesField = QLineEdit()
-        addNotesField.setPlaceholderText("Enter additional notes here..)")
+        addNotesField.setPlaceholderText("Enter additional notes here..")
         addNotesPageLayout.addWidget(addNotesField)
 
     # Function that shows the list of residents for each housing unit entry in resident list tab page
@@ -428,7 +428,7 @@ class AddLicenceeWindow(QDialog):
 
         futureExpansionSection = QWidget()
         futureExpansionLayout = QVBoxLayout(futureExpansionSection)
-        futureExpansionLabel = QLabel("Additional Requirements - Student Suggested")
+        futureExpansionLabel = QLabel("Future Expansions")
         futureExpansionLayout.addWidget(futureExpansionLabel)
 
         futureExpansion2Label = QLabel("Future Expansion 2")
