@@ -57,9 +57,7 @@ class AbstractAddNewEntry(QDialog):
     def __init__(self, firstTab, secondTab, thirdTab, firstTabView, secondTabView, thirdTabView):
         super().__init__()
 
-        self.pageLayout = QVBoxLayout(self)
-
-    def add_header_bar(self, firstTab):
+    def add_header_bar(self, firstTab, secondTab, thirdTab):
         self.headerBar = QWidget()
         self.headerLayout = QHBoxLayout(headerBar)
 
@@ -78,13 +76,10 @@ class AbstractAddNewEntry(QDialog):
         pageLayout.addWidget(headerBar)
 
 
-
-        self.add_footer_bar()
-
     def add_tab_view(self, firstTabView, secondTabView, thirdTabView):
         self.stackWidget = QStackedWidget(self)
 
-        self.firstTabView = self.
+        self.firstTabView = self.stackWidget.widget(0)
 
         self.secondTabView = self.stackWidget.currentIndex()
 
@@ -113,29 +108,13 @@ class AbstractAddNewEntry(QDialog):
         pageLayout.addWidget(self.footerButtons)
 
 
-# I'm trying to implement and test my abstract class below:
-class AddRHUWindow(QDialog):
-    def __init__(self):
+class AddRHUWindow(AbstractAddNewEntry):
+    def __init__(self, firstTab, secondTab, thirdTab, firstTabView, secondTabView, thirdTabView):
         super().__init__()
 
         pageLayout = QVBoxLayout(self)
 
-        headerBar = QWidget()
-        headerLayout = QHBoxLayout(headerBar)
-
-        basicInfo = QPushButton("Basic Info")
-        headerLayout.addWidget(basicInfo)
-        basicInfo.clicked.connect(lambda: self.stackWidget.setCurrentIndex(0))
-
-        requirements = QPushButton("Requirements")
-        headerLayout.addWidget(requirements)
-        requirements.clicked.connect(lambda: self.stackWidget.setCurrentIndex(1))
-
-        addNotes = QPushButton("Add Notes")
-        headerLayout.addWidget(addNotes)
-        addNotes.clicked.connect(lambda: self.stackWidget.setCurrentIndex(2))
-
-        pageLayout.addWidget(headerBar)
+        self.add_header_bar()
 
         self.stackWidget = QStackedWidget(self)
 
@@ -153,22 +132,7 @@ class AddRHUWindow(QDialog):
 
         pageLayout.addWidget(self.stackWidget)
 
-        footerButtons = QWidget(self)
-        footerLayout = QHBoxLayout(footerButtons)
-
-        deleteButton = QPushButton('Delete')
-        footerLayout.addWidget(deleteButton)
-        deleteButton.clicked.connect(self.close)
-
-        cancelButton = QPushButton('Cancel')
-        footerLayout.addWidget(cancelButton)
-        cancelButton.clicked.connect(self.close)
-
-        saveChangesButton = QPushButton('Save Changes')
-        footerLayout.addWidget(saveChangesButton)
-        saveChangesButton.clicked.connect(self.close)
-
-        pageLayout.addWidget(footerButtons)
+        self.add_footer_bar()
 
     def basic_info_TabView(self):
         self.basicInfoPage = QWidget()
@@ -764,6 +728,14 @@ class HomepageWindow(QMainWindow):
         RHUContainerLayout = QVBoxLayout(self.RHUContainer)
 
         # Search bar goes here!
+        headerBar = QWidget()
+        headerbarLayout = QHBoxLayout(headerBar)
+
+        addNewRHU = QPushButton("+ Add A New RHU")
+        addNewRHU.clicked.connect(self.open_RHU_registration_window)
+        headerbarLayout.addWidget(addNewRHU)
+
+        RHUContainerLayout.addWidget(headerBar)
 
         RHUSection = QWidget()
         RHUSectionLayout = QVBoxLayout(RHUSection)
