@@ -1,3 +1,6 @@
+# Name: MUHAMMAD IEZHANUDDIN BIN RAMLIN
+# Student ID: 24015892
+
 import sys
 from platform import release
 
@@ -57,11 +60,129 @@ class AddRHUWindow(QDialog):
     def __init__(self):
         super().__init__()
 
-        container = QWidget(self)
-        self.pageLayout = QVBoxLayout(container)
+        pageLayout = QVBoxLayout(self)
 
-        label = QLabel('New RHU Registration Window')
-        pageLayout.addWidget(label)
+        headerBar = QWidget()
+        headerLayout = QHBoxLayout(headerBar)
+
+        basicInfo = QPushButton("Basic Info")
+        headerLayout.addWidget(basicInfo)
+        basicInfo.clicked.connect(lambda: self.stackWidget.setCurrentIndex(0))
+
+        features = QPushButton("Requirements")
+        headerLayout.addWidget(features)
+        features.clicked.connect(lambda: self.stackWidget.setCurrentIndex(1))
+
+        residentList = QPushButton("Add Notes")
+        headerLayout.addWidget(residentList)
+        residentList.clicked.connect(lambda: self.stackWidget.setCurrentIndex(2))
+
+        pageLayout.addWidget(headerBar)
+
+        self.stackWidget = QStackedWidget(self)
+
+        self.basic_info_TabView()
+
+        self.stackWidget.addWidget(self.basicInfoPage)
+
+        self.add_notes_TabView()
+
+        self.stackWidget.addWidget(self.addNotesPage)
+
+        self.resident_list_TabView()
+
+        self.stackWidget.addWidget(self.residentListPage)
+
+        pageLayout.addWidget(self.stackWidget)
+
+        footerButtons = QWidget(self)
+        footerLayout = QHBoxLayout(footerButtons)
+
+        deleteButton = QPushButton('Delete')
+        footerLayout.addWidget(deleteButton)
+        deleteButton.clicked.connect(self.close)
+
+        cancelButton = QPushButton('Cancel')
+        footerLayout.addWidget(cancelButton)
+        cancelButton.clicked.connect(self.close)
+
+        saveChangesButton = QPushButton('Save Changes')
+        footerLayout.addWidget(saveChangesButton)
+        saveChangesButton.clicked.connect(self.close)
+
+        pageLayout.addWidget(footerButtons)
+
+    def basic_info_TabView(self):
+        self.basicInfoPage = QWidget()
+        basicInfoPageLayout = QGridLayout(self.basicInfoPage)
+
+        self.RHUName = QLineEdit()
+        self.RHUName.setPlaceholderText("Housing Name")
+        basicInfoPageLayout.addWidget(self.RHUName, 0, 0)
+
+        self.RHUaddress = QLineEdit()
+        self.RHUaddress.setPlaceholderText("Housing Address")
+        basicInfoPageLayout.addWidget(self.RHUaddress, 1, 0)
+
+        self.phone = QLineEdit()
+        self.phone.setPlaceholderText("Phone Number")
+        basicInfoPageLayout.addWidget(self.phone, 2, 0)
+
+        self.email = QLineEdit()
+        self.email.setPlaceholderText("Email")
+        basicInfoPageLayout.addWidget(self.email, 3, 0)
+
+        self.management = QLineEdit()
+        self.management.setPlaceholderText("Management")
+        basicInfoPageLayout.addWidget(self.management, 4, 0)
+
+        self.capacity = QLineEdit()
+        self.capacity.setPlaceholderText("Housing Capacity")
+        basicInfoPageLayout.addWidget(self.capacity, 0, 1)
+
+        self.costPerBed = QLineEdit()
+        self.costPerBed.setPlaceholderText("Cost per Bed")
+        basicInfoPageLayout.addWidget(self.costPerBed, 1, 1)
+
+    def add_notes_TabView(self):
+        self.addNotesPage = QWidget()
+        addNotesPageLayout = QVBoxLayout(self.addNotesPage)
+
+        addNotesLabel = QLabel("Additional Notes for Housing")
+        addNotesPageLayout.addWidget(addNotesLabel)
+
+        addNotesField = QLineEdit()
+        addNotesField.setPlaceholderText("Enter additional notes here..)")
+        addNotesPageLayout.addWidget(addNotesField)
+
+    def resident_list_TabView(self):
+        self.residentListPage = QWidget()
+        self.residentListPageLayout = QVBoxLayout(self.residentListPage)
+
+        self.residentList = QListView()
+        self.data = [
+            {'name': 'Dustin'},
+            {'name': 'Johnathan'},
+            {'name': 'Hop'},
+            {'name': 'Dustin'},
+            {'name': 'Johnathan'},
+            {'name': 'Hop'},
+            {'name': 'Dustin'},
+            {'name': 'Johnathan'},
+            {'name': 'Hop'},
+            {'name': 'Dustin'},
+            {'name': 'Johnathan'},
+            {'name': 'Hop'},
+            {'name': 'Keema'}
+        ]
+
+        self.overviewModel = CustomListModel(self.data)
+
+        self.residentList.setModel(self.overviewModel)
+
+        self.residentList.setItemDelegate(CustomItemDelegate())
+
+        self.residentListPageLayout.addWidget(self.residentList)
 
 class AddLicenceeWindow(QDialog):
     def __init__(self):
@@ -88,7 +209,7 @@ class AddLicenceeWindow(QDialog):
 
         self.stackWidget = QStackedWidget(self)
 
-        self.firstTabView = self.basic_info_TabView()
+        self.basic_info_TabView()
 
         self.stackWidget.addWidget(self.basicInfoPage)
 
