@@ -546,3 +546,5 @@ if __name__ == '__main__':
     window = LoginWindow()
     window.show()
     app.exec()
+
+    # Testing to add comments and commit changes to GIT
