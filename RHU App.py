@@ -72,11 +72,11 @@ class AddRHUWindow(QDialog):
         headerLayout.addWidget(basicInfo)
         basicInfo.clicked.connect(lambda: self.stackWidget.setCurrentIndex(0))  # Implement signal and slots feature to connect buttons to events
 
-        features = QPushButton("Requirements")
+        features = QPushButton("Features")
         headerLayout.addWidget(features)
         features.clicked.connect(lambda: self.stackWidget.setCurrentIndex(1))
 
-        residentList = QPushButton("Add Notes")
+        residentList = QPushButton("List of Residents")
         headerLayout.addWidget(residentList)
         residentList.clicked.connect(lambda: self.stackWidget.setCurrentIndex(2))
 
