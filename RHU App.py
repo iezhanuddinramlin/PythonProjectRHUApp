@@ -445,6 +445,7 @@ class HomepageWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("RHU App Homepage")
+        self.resize(800, 600)
 
         overviewContainer = QWidget(self)
         self.setCentralWidget(overviewContainer)
@@ -508,8 +509,15 @@ class HomepageWindow(QMainWindow):
         homepageLayout.addWidget(headerBar)
 
         # 3 Types of Licencee Columns Section
+
         licenceeSection = QWidget()
         licenceeLayout = QHBoxLayout(licenceeSection)
+
+        licenceeLabelSection = QWidget()
+        licenceeLabelLayout = QHBoxLayout(licenceeLabelSection)
+
+        pendingLicenceeLabel = QLabel("Pending Licence")
+        licenceeLabelLayout.addWidget(pendingLicenceeLabel)
 
         self.pendingLicencee = QListView()
         self.data = [
@@ -543,6 +551,9 @@ class HomepageWindow(QMainWindow):
         self.pendingLicencee.setItemDelegate(CustomItemDelegate())
         licenceeLayout.addWidget(self.pendingLicencee)
 
+        allocatedHouseLabel = QLabel("Allocated Housing")
+        licenceeLabelLayout.addWidget(allocatedHouseLabel)
+
         self.allocatedHouse = QListView()
         self.data = [
             {'name': 'Dustin'},
@@ -574,6 +585,9 @@ class HomepageWindow(QMainWindow):
 
         self.allocatedHouse.setItemDelegate(CustomItemDelegate())
         licenceeLayout.addWidget(self.allocatedHouse)
+
+        exitedSystemLabel = QLabel("Exited System")
+        licenceeLabelLayout.addWidget(exitedSystemLabel)
 
         self.exitedSystem = QListView()
         self.data = [
@@ -607,6 +621,7 @@ class HomepageWindow(QMainWindow):
         self.exitedSystem.setItemDelegate(CustomItemDelegate())
         licenceeLayout.addWidget(self.exitedSystem)
 
+        homepageLayout.addWidget(licenceeLabelSection)
         homepageLayout.addWidget(licenceeSection)
 
     def open_RHU_regisration_window(self):
