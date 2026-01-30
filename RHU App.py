@@ -492,6 +492,7 @@ class HomepageWindow(QMainWindow):
         self.searchBar = QLineEdit()
         self.searchBar.setPlaceholderText("Search by name or Prisoner ID")
         headerbarLayout.addWidget(self.searchBar)
+        self.searchBar.text()
 
         filterSort = QComboBox()
         filterSort.addItems(['Sort by Date', 'Sort by Name', 'Sort by Prisoner ID'])
@@ -515,16 +516,24 @@ class HomepageWindow(QMainWindow):
             {'name': 'Dustin'},
             {'name': 'Johnathan'},
             {'name': 'Hop'},
+            {'name': 'Anderson'},
+            {'name': 'Jim'},
+            {'name': 'Robin'},
+            {'name': 'Steve'},
+            {'name': 'Asher'},
+            {'name': 'Barbara'},
+            {'name': 'Will'},
+            {'name': 'Mike'},
             {'name': 'Dustin'},
             {'name': 'Johnathan'},
             {'name': 'Hop'},
-            {'name': 'Dustin'},
-            {'name': 'Johnathan'},
-            {'name': 'Hop'},
-            {'name': 'Dustin'},
-            {'name': 'Johnathan'},
-            {'name': 'Hop'},
-            {'name': 'Keema'}
+            {'name': 'Keema'},
+            {'name': 'Powell'},
+            {'name': 'Howard'},
+            {'name': 'Christabel'},
+            {'name': 'Joseph'},
+            {'name': 'Muji'},
+            {'name': 'Lee'},
         ]
 
         self.overviewModel = CustomListModel(self.data)
@@ -536,10 +545,27 @@ class HomepageWindow(QMainWindow):
 
         self.allocatedHouse = QListView()
         self.data = [
+            {'name': 'Dustin'},
+            {'name': 'Johnathan'},
+            {'name': 'Hop'},
             {'name': 'Anderson'},
             {'name': 'Jim'},
             {'name': 'Robin'},
-            {'name': 'Steve'}
+            {'name': 'Steve'},
+            {'name': 'Asher'},
+            {'name': 'Barbara'},
+            {'name': 'Will'},
+            {'name': 'Mike'},
+            {'name': 'Dustin'},
+            {'name': 'Johnathan'},
+            {'name': 'Hop'},
+            {'name': 'Keema'},
+            {'name': 'Powell'},
+            {'name': 'Howard'},
+            {'name': 'Christabel'},
+            {'name': 'Joseph'},
+            {'name': 'Muji'},
+            {'name': 'Lee'},
         ]
 
         self.overviewModel = CustomListModel(self.data)
@@ -551,10 +577,27 @@ class HomepageWindow(QMainWindow):
 
         self.exitedSystem = QListView()
         self.data = [
+            {'name': 'Dustin'},
+            {'name': 'Johnathan'},
+            {'name': 'Hop'},
+            {'name': 'Anderson'},
+            {'name': 'Jim'},
+            {'name': 'Robin'},
+            {'name': 'Steve'},
             {'name': 'Asher'},
             {'name': 'Barbara'},
             {'name': 'Will'},
-            {'name': 'Mike'}
+            {'name': 'Mike'},
+            {'name': 'Dustin'},
+            {'name': 'Johnathan'},
+            {'name': 'Hop'},
+            {'name': 'Keema'},
+            {'name': 'Powell'},
+            {'name': 'Howard'},
+            {'name': 'Christabel'},
+            {'name': 'Joseph'},
+            {'name': 'Muji'},
+            {'name': 'Lee'},
         ]
 
         self.overviewModel = CustomListModel(self.data)
@@ -596,16 +639,24 @@ class HomepageWindow(QMainWindow):
             {'name': 'Dustin'},
             {'name': 'Johnathan'},
             {'name': 'Hop'},
+            {'name': 'Anderson'},
+            {'name': 'Jim'},
+            {'name': 'Robin'},
+            {'name': 'Steve'},
+            {'name': 'Asher'},
+            {'name': 'Barbara'},
+            {'name': 'Will'},
+            {'name': 'Mike'},
             {'name': 'Dustin'},
             {'name': 'Johnathan'},
             {'name': 'Hop'},
-            {'name': 'Dustin'},
-            {'name': 'Johnathan'},
-            {'name': 'Hop'},
-            {'name': 'Dustin'},
-            {'name': 'Johnathan'},
-            {'name': 'Hop'},
-            {'name': 'Keema'}
+            {'name': 'Keema'},
+            {'name': 'Powell'},
+            {'name': 'Howard'},
+            {'name': 'Christabel'},
+            {'name': 'Joseph'},
+            {'name': 'Muji'},
+            {'name': 'Lee'},
         ]
 
         self.RHUmodel = CustomListModel(self.data2)
