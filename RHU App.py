@@ -547,4 +547,4 @@ if __name__ == '__main__':
     window.show()
     app.exec()
 
-    # Testing to add comments and commit changes to GIT
+    # Testing to add comments and commit changes to Git
