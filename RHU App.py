@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QLineEdit, QPushButton,
 from PySide6.QtCore import Qt, QAbstractListModel, QModelIndex, QSize
 from PySide6.QtGui import QPainter
 
-
+# This class is for generating a custom list model for QListView
 class CustomListModel(QAbstractListModel):
     def __init__(self, data):
         super().__init__()
@@ -27,6 +27,7 @@ class CustomListModel(QAbstractListModel):
     def flags(self, index):
         return Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
+# This class is for generating delegates to add more colour variations for the QListView
 class CustomItemDelegate(QStyledItemDelegate):
     def createEditor(self, parent, option, index):
         # Optionally, create an editor for editing items
@@ -56,18 +57,20 @@ class CustomItemDelegate(QStyledItemDelegate):
         # Return the size hint for the item
         return QSize(200, 40)  # Custom size for the items
 
+# This class handles the code for QDialog popup window when adding a new housing unit in the RHU Tab
 class AddRHUWindow(QDialog):
     def __init__(self):
         super().__init__()
 
-        pageLayout = QVBoxLayout(self)
+        pageLayout = QVBoxLayout(self) # Initialise main page layout vertically, self is passed to establish parent-child connection
 
-        headerBar = QWidget()
-        headerLayout = QHBoxLayout(headerBar)
+        headerBar = QWidget()   # Creating the main widget for the window, self is not needed as it has been passed in pageLayout
+        headerLayout = QHBoxLayout(headerBar)   # Set its layout so the buttons would appear horizontally (mimic a tab system)
 
+        # Create tab navigation buttons for each page
         basicInfo = QPushButton("Basic Info")
         headerLayout.addWidget(basicInfo)
-        basicInfo.clicked.connect(lambda: self.stackWidget.setCurrentIndex(0))
+        basicInfo.clicked.connect(lambda: self.stackWidget.setCurrentIndex(0))  # Implement signal and slots feature to connect buttons to events
 
         features = QPushButton("Requirements")
         headerLayout.addWidget(features)
@@ -77,15 +80,16 @@ class AddRHUWindow(QDialog):
         headerLayout.addWidget(residentList)
         residentList.clicked.connect(lambda: self.stackWidget.setCurrentIndex(2))
 
-        pageLayout.addWidget(headerBar)
+        pageLayout.addWidget(headerBar)     # Add the buttons to the headerBar widget so it could appear in the app
 
+        # Implement QStackWidget to store page content, this allows the buttons to interact and change between pages seamlessly
         self.stackWidget = QStackedWidget(self)
 
-        self.basic_info_TabView()
+        self.basic_info_TabView()   # Create a new function in the same class and put the page code in there to clean up code and ensure readability
 
         self.stackWidget.addWidget(self.basicInfoPage)
 
-        self.add_notes_TabView()
+        self.add_notes_TabView()    # Instead of writing hardcoding everything in __init__, I can just call the function.
 
         self.stackWidget.addWidget(self.addNotesPage)
 
@@ -95,6 +99,7 @@ class AddRHUWindow(QDialog):
 
         pageLayout.addWidget(self.stackWidget)
 
+        # Create a footer bar that houses the QDialog action buttons, delete, cancel and save changes
         footerButtons = QWidget(self)
         footerLayout = QHBoxLayout(footerButtons)
 
@@ -112,6 +117,7 @@ class AddRHUWindow(QDialog):
 
         pageLayout.addWidget(footerButtons)
 
+    # Function that shows the basic info tab page
     def basic_info_TabView(self):
         self.basicInfoPage = QWidget()
         basicInfoPageLayout = QGridLayout(self.basicInfoPage)
@@ -144,6 +150,7 @@ class AddRHUWindow(QDialog):
         self.costPerBed.setPlaceholderText("Cost per Bed")
         basicInfoPageLayout.addWidget(self.costPerBed, 1, 1)
 
+    # Function that shows the additional notes tab page
     def add_notes_TabView(self):
         self.addNotesPage = QWidget()
         addNotesPageLayout = QVBoxLayout(self.addNotesPage)
@@ -155,10 +162,12 @@ class AddRHUWindow(QDialog):
         addNotesField.setPlaceholderText("Enter additional notes here..)")
         addNotesPageLayout.addWidget(addNotesField)
 
+    # Function that shows the list of residents for each housing unit entry in resident list tab page
     def resident_list_TabView(self):
         self.residentListPage = QWidget()
         self.residentListPageLayout = QVBoxLayout(self.residentListPage)
 
+        # Hardcoded data for the QListView
         self.residentList = QListView()
         self.data = [
             {'name': 'Dustin'},
@@ -176,14 +185,15 @@ class AddRHUWindow(QDialog):
             {'name': 'Keema'}
         ]
 
-        self.overviewModel = CustomListModel(self.data)
+        self.overviewModel = CustomListModel(self.data) # Creating a QListView model using the CustomListModel function for the given data
 
         self.residentList.setModel(self.overviewModel)
 
-        self.residentList.setItemDelegate(CustomItemDelegate())
+        self.residentList.setItemDelegate(CustomItemDelegate()) # Implementing custom delegates to add colour variations into the list view
 
         self.residentListPageLayout.addWidget(self.residentList)
 
+# This class handles the code for QDialog popup window when adding a new licencee in the overview tab
 class AddLicenceeWindow(QDialog):
     def __init__(self):
         super().__init__()
@@ -240,6 +250,7 @@ class AddLicenceeWindow(QDialog):
 
         pageLayout.addWidget(footerButtons)
 
+    # This function shows the basic info tab page
     def basic_info_TabView(self):
         self.basicInfoPage = QWidget()
         basicInfoPageLayout = QGridLayout(self.basicInfoPage)
@@ -285,6 +296,7 @@ class AddLicenceeWindow(QDialog):
         self.prisonerPhoto.setPlaceholderText("Prisoner Photo")
         basicInfoPageLayout.addWidget(self.prisonerPhoto, 4, 1)
 
+    # This function shows the requirements tab page
     def requirements_TabView(self):
         self.requirementsPage = QWidget()
         requirementsPageLayout = QVBoxLayout(self.requirementsPage)
@@ -321,6 +333,7 @@ class AddLicenceeWindow(QDialog):
         self.gender.addItem("Female only")
         self.gender.addItem("Mixed")
 
+        # Since I utilised a grid layout, I should provide the grid coordinates so buttons could be placed properly
         restrictionCheckboxesLayout.addWidget(self.drugSearch, 0, 0)
         restrictionCheckboxesLayout.addWidget(self.priorRHUExperience, 0, 1)
         restrictionCheckboxesLayout.addWidget(self.offendingTriggers, 1, 0)
@@ -411,9 +424,34 @@ class AddLicenceeWindow(QDialog):
 
         requirementsPageLayout.addWidget(accessToServices)
 
+        futureExpansionSection = QWidget()
+        futureExpansionLayout = QVBoxLayout(futureExpansionSection)
+        futureExpansionLabel = QLabel("Additional Requirements - Student Suggested")
+        futureExpansionLayout.addWidget(futureExpansionLabel)
+
+        futureExpansion2Label = QLabel("Future Expansion 2")
+        self.futureExpansion2 = QLineEdit()
+        self.futureExpansion2.setPlaceholderText("Provide a placeholder text here..")
+        futureExpansionLayout.addWidget(futureExpansion2Label)
+        futureExpansionLayout.addWidget(self.futureExpansion2)
+
+        futureExpansion3Label = QLabel("Future Expansion 3")
+        self.futureExpansion3 = QLineEdit()
+        self.futureExpansion3.setPlaceholderText("Provide a placeholder text here..")
+        futureExpansionLayout.addWidget(futureExpansion3Label)
+        futureExpansionLayout.addWidget(self.futureExpansion3)
+
+        futureExpansion1Label = QLabel("Future Expansion 3")
+        self.futureExpansion1 = QLineEdit()
+        self.futureExpansion1.setPlaceholderText("Provide a placeholder text here..")
+        futureExpansionLayout.addWidget(futureExpansion1Label)
+        futureExpansionLayout.addWidget(self.futureExpansion1)
+
+        requirementsPageLayout.addWidget(futureExpansionSection)
+
         additionalRequirementsSection = QWidget()
         additionalRequirementsLayout = QVBoxLayout(additionalRequirementsSection)
-        additionalRequirementsLabel = QLabel("Additional Requirements - Future Expansion")
+        additionalRequirementsLabel = QLabel("Additional Requirements - Student Suggested")
         additionalRequirementsLayout.addWidget(additionalRequirementsLabel)
 
         therapyServiceLabel = QLabel("Therapy Service")
@@ -430,6 +468,7 @@ class AddLicenceeWindow(QDialog):
 
         requirementsPageLayout.addWidget(additionalRequirementsSection)
 
+    # This function shows the additional notes tab page
     def add_notes_TabView(self):
         self.addNotesPage = QWidget()
         addNotesPageLayout = QVBoxLayout(self.addNotesPage)
@@ -441,16 +480,18 @@ class AddLicenceeWindow(QDialog):
         addNotesField.setPlaceholderText("Enter additional notes here (prisoner's special requirements, etc.)")
         addNotesPageLayout.addWidget(addNotesField)
 
+# This class handles the main homepage window of the app
 class HomepageWindow(QMainWindow):
     def __init__(self):
-        super().__init__()
+        super().__init__()  # Inheriting QMainWindow attributes
         self.setWindowTitle("RHU App Homepage")
-        self.resize(800, 600)
+        self.resize(800, 600)   # Resizing window to appropriate size
 
         overviewContainer = QWidget(self)
         self.setCentralWidget(overviewContainer)
         overviewLayout = QVBoxLayout(overviewContainer)
 
+        # This is a navigation tab bar that houses buttons to change between different page tabs
         navBar = QWidget()
         navBarLayout = QHBoxLayout(navBar)
 
@@ -460,15 +501,16 @@ class HomepageWindow(QMainWindow):
 
         RHUTab = QPushButton('RHUs')
         navBarLayout.addWidget(RHUTab)
-        RHUTab.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+        RHUTab.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))   # lambda is used to simplify code
 
         overviewLayout.addWidget(navBar)
 
         self.stackedWidget = QStackedWidget()
 
+        # Function Calling Overview tab container
         self.overview_TabView()
 
-        # RHU Tab Container
+        # Function calling RHU Tab Container
         self.RHU_TabView()
 
         self.stackedWidget.addWidget(self.mainContainer)
@@ -476,17 +518,19 @@ class HomepageWindow(QMainWindow):
 
         overviewLayout.addWidget(self.stackedWidget)
 
+    # This function directs the button clicked action to AddNewLicencee function to open its dialog window
     def open_registration_window(self):
         dialog = AddLicenceeWindow()
         dialog.setWindowTitle("Add A New Licencee")
         dialog.exec()
 
+    # This function show the overview tab page
     def overview_TabView(self):
         # Main Container for Overview
         self.mainContainer = QWidget()
         homepageLayout = QVBoxLayout(self.mainContainer)
 
-        # Header Bar with its functionality
+        # Header Bar with its search, sort and add new licencee button functionality
         headerBar = QWidget()
         headerbarLayout = QHBoxLayout(headerBar)
 
@@ -508,17 +552,18 @@ class HomepageWindow(QMainWindow):
 
         homepageLayout.addWidget(headerBar)
 
-        # 3 Types of Licencee Columns Section
-
+        # Here are the 3 types of licencee columns section
         licenceeSection = QWidget()
         licenceeLayout = QHBoxLayout(licenceeSection)
 
         licenceeLabelSection = QWidget()
         licenceeLabelLayout = QHBoxLayout(licenceeLabelSection)
 
+        # Each section is labelled with their respective labels to differentiate
         pendingLicenceeLabel = QLabel("Pending Licence")
         licenceeLabelLayout.addWidget(pendingLicenceeLabel)
 
+        # Creation of list of licencee using the provided self.data
         self.pendingLicencee = QListView()
         self.data = [
             {'name': 'Dustin'},
@@ -624,19 +669,21 @@ class HomepageWindow(QMainWindow):
         homepageLayout.addWidget(licenceeLabelSection)
         homepageLayout.addWidget(licenceeSection)
 
+    # This function directs the button clicked action to AddRHUWindow function to open its dialog window
     def open_RHU_regisration_window(self):
         dialog = AddRHUWindow()
         dialog.setWindowTitle("Add A New RHU")
         dialog.exec()
 
+    # This function show the RHU tab page
     def RHU_TabView(self):
         self.RHUContainer = QWidget()
         RHUContainerLayout = QVBoxLayout(self.RHUContainer)
 
-        # Add RHU button goes here!
         headerBar = QWidget()
         headerBarLayout = QHBoxLayout(headerBar)
 
+        # Add RHU button goes here!
         addRHUButton = QPushButton("Add A New RHU")
         headerBarLayout.addWidget(addRHUButton)
         addRHUButton.clicked.connect(self.open_RHU_regisration_window)
@@ -646,32 +693,26 @@ class HomepageWindow(QMainWindow):
         RHUSection = QWidget()
         RHUSectionLayout = QVBoxLayout(RHUSection)
 
+        # Creating a list view to show list of available housing units
         RHUListViewLabel = QLabel("RHU List")
         RHUSectionLayout.addWidget(RHUListViewLabel)
 
+        # Data for the housing unit list
         self.RHUListView = QListView()
         self.data2 = [
-            {'name': 'Dustin'},
-            {'name': 'Johnathan'},
-            {'name': 'Hop'},
-            {'name': 'Anderson'},
-            {'name': 'Jim'},
-            {'name': 'Robin'},
-            {'name': 'Steve'},
-            {'name': 'Asher'},
-            {'name': 'Barbara'},
-            {'name': 'Will'},
-            {'name': 'Mike'},
-            {'name': 'Dustin'},
-            {'name': 'Johnathan'},
-            {'name': 'Hop'},
-            {'name': 'Keema'},
-            {'name': 'Powell'},
-            {'name': 'Howard'},
-            {'name': 'Christabel'},
-            {'name': 'Joseph'},
-            {'name': 'Muji'},
-            {'name': 'Lee'},
+            {'name': 'Durham County Hostel'},
+            {'name': 'Crook Hostel'},
+            {'name': 'Villa Grandview'},
+            {'name': 'Famosa Motel'},
+            {'name': 'Flakes Housing'},
+            {'name': 'Marisa Viewland'},
+            {'name': 'Hawkins High'},
+            {'name': 'Northumberland County Manor'},
+            {'name': 'Heinz Hotel'},
+            {'name': 'Karl Shared Housing'},
+            {'name': 'Zeiss Shared Housing'},
+            {'name': 'Mount Hostel'},
+            {'name': 'Elton Hostel'},
         ]
 
         self.RHUmodel = CustomListModel(self.data2)
@@ -683,39 +724,40 @@ class HomepageWindow(QMainWindow):
 
         RHUContainerLayout.addWidget(RHUSection)
 
+# This class handles login window where user can enter their password to access the app's homepage
 class LoginWindow(QMainWindow):
     def __init__(self):
-        super().__init__()
-        self.setWindowTitle("RHU App Login")
-        self.resize(200, 300)
+        super().__init__() # Inheriting attributes from the superclass QMainWindow
+        self.setWindowTitle("RHU App Login") # Setting the window title to differentiate between windows
+        self.resize(200, 300) # Resizing the window to appropriate size
 
         mainContainer = QWidget(self)
-        self.setCentralWidget(mainContainer)
+        self.setCentralWidget(mainContainer) # Setting mainContainer as central widget
 
         loginLayout = QVBoxLayout(mainContainer)
 
-        label = QLabel('RHU Licencee Allocation System')
+        label = QLabel('On-Licence Housing Allocation System')
         self.loginPassword = QLineEdit()
-        self.loginPassword.setPlaceholderText("Password is AOdurham2026")
+        self.loginPassword.setPlaceholderText("Password is AOdurham2026")   # This gives an idea of what the set password is to user
         loginButton =  QPushButton('Login')
-        loginButton.clicked.connect(self.open_homepage)
+        loginButton.clicked.connect(self.open_homepage) # Event driven button which connects to the password validation function in this class
 
+        # Adding all the widgets into main widget layout
         loginLayout.addWidget(label)
         loginLayout.addWidget(self.loginPassword)
         loginLayout.addWidget(loginButton)
 
-        self.windowCount = 1
-
+    # This function does the password validation work
     def open_homepage(self):
         password = self.loginPassword.text()
-        if password == "AOdurham2026":
+        if password == "AOdurham2026":  # Checks user input in password box whether it's the same as set password
             self.homepage = HomepageWindow()
             self.homepage.show()
-            self.close()
+            self.close()    # If yes, homepage window will open and login window is closed
         else:
-            QMessageBox.warning(self, "Error", "Wrong Password")
+            QMessageBox.warning(self, "Error", "Wrong Password")    # If not, a message box will appear saying user entered wrong password
 
-
+# Main section of the code where first window of the app is called for execution
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = LoginWindow()
