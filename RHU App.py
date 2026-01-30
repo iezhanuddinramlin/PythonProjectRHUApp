@@ -130,17 +130,19 @@ class AddRHUWindow(QDialog):
         self.RHUaddress.setPlaceholderText("Housing Address")
         basicInfoPageLayout.addWidget(self.RHUaddress, 1, 0)
 
-        self.phone = QLineEdit()
-        self.phone.setPlaceholderText("Phone Number")
-        basicInfoPageLayout.addWidget(self.phone, 2, 0)
-
         self.email = QLineEdit()
         self.email.setPlaceholderText("Email")
-        basicInfoPageLayout.addWidget(self.email, 3, 0)
+        basicInfoPageLayout.addWidget(self.email, 2, 0)
 
-        self.management = QLineEdit()
-        self.management.setPlaceholderText("Management")
-        basicInfoPageLayout.addWidget(self.management, 4, 0)
+        self.management = QComboBox()
+        self.management.addItem("Select housing management..")
+        self.management.addItem("Commercial")
+        self.management.addItem("Charity")
+        basicInfoPageLayout.addWidget(self.management, 3, 0)
+
+        self.phone = QLineEdit()
+        self.phone.setPlaceholderText("Phone Number")
+        basicInfoPageLayout.addWidget(self.phone, 2, 1)
 
         self.capacity = QLineEdit()
         self.capacity.setPlaceholderText("Housing Capacity")
@@ -682,6 +684,11 @@ class HomepageWindow(QMainWindow):
 
         headerBar = QWidget()
         headerBarLayout = QHBoxLayout(headerBar)
+
+        self.searchBar = QLineEdit()
+        self.searchBar.setPlaceholderText("Search housing name")
+        headerbarLayout.addWidget(self.searchBar)
+        self.searchBar.text()
 
         # Add RHU button goes here!
         addRHUButton = QPushButton("Add A New RHU")
