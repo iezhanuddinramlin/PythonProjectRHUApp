@@ -539,7 +539,6 @@ class HomepageWindow(QMainWindow):
         self.searchBar = QLineEdit()
         self.searchBar.setPlaceholderText("Search by name or Prisoner ID")
         headerbarLayout.addWidget(self.searchBar)
-        self.searchBar.text()
 
         filterSort = QComboBox()
         filterSort.addItems(['Sort by Date', 'Sort by Name', 'Sort by Prisoner ID'])
@@ -684,11 +683,6 @@ class HomepageWindow(QMainWindow):
 
         headerBar = QWidget()
         headerBarLayout = QHBoxLayout(headerBar)
-
-        self.searchBar = QLineEdit()
-        self.searchBar.setPlaceholderText("Search housing name")
-        headerbarLayout.addWidget(self.searchBar)
-        self.searchBar.text()
 
         # Add RHU button goes here!
         addRHUButton = QPushButton("Add A New RHU")
